@@ -19,7 +19,7 @@ import java.util.List;
  * Также желательно реализовать второй вариант задачи, если количество списков может быть любым, а не только два.
  */
 @UtilityClass
-class ListMerger {
+public class ListMerger {
 
     public static void mergeLists(List<Integer> firstList, List<Integer> secondList) {
         List<Integer> result = new ArrayList<>(firstList.size() + secondList.size());

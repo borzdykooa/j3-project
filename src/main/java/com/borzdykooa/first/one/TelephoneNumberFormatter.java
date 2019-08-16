@@ -31,7 +31,7 @@ public class TelephoneNumberFormatter {
         return stringBuilder.toString().replaceAll("(\\d{3})(\\d{3})(\\d{4})", "($1) $2-$3");
     }
 
-    private StringBuilder appendSublist(List<Integer> sublist) {
+    private static StringBuilder appendSublist(List<Integer> sublist) {
         StringBuilder stringBuilder = new StringBuilder();
         sublist.forEach(stringBuilder::append);
 

@@ -4,6 +4,7 @@ import com.borzdykooa.general.ApplicationException;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.*;
 
@@ -27,27 +28,25 @@ import java.util.concurrent.*;
 @UtilityClass
 public class SupermarketQueue {
 
-    public static Integer getTotalTime(Integer numberOfCustomers, Queue<Integer> queue) {
-        Queue<Integer> threadSafeQueue = new ConcurrentLinkedQueue<>(queue);
+    public static Integer getTotalTime(Integer numberOfCustomers, List<Integer> customers) {
+        Queue<Integer> threadSafeQueue = new ConcurrentLinkedQueue<>(customers);
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfCustomers);
-        ArrayList<Future<Integer>> commonTimes = new ArrayList<>();
+        List<Cashier> cashiers = new ArrayList<>();
         for (int i = 0; i < numberOfCustomers; i++) {
-            Cashier cashier = new Cashier(threadSafeQueue);
-            Future<Integer> commonTime = executorService.submit(cashier);
-            commonTimes.add(commonTime);
+            cashiers.add(new Cashier(threadSafeQueue));
         }
         int totalTime = 0;
-        for (Future<Integer> commonTime : commonTimes) {
-            try {
+        try {
+            List<Future<Integer>> commonTimes = executorService.invokeAll(cashiers);
+            for (Future<Integer> commonTime : commonTimes) {
                 Integer time = commonTime.get();
                 totalTime = totalTime > time ? totalTime : time;
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new ApplicationException("InterruptedException occurred in SupermarketQueue::getTotalTime");
-            } catch (ExecutionException e) {
-                throw new ApplicationException("ExecutionException occurred in SupermarketQueue::getTotalTime");
-
             }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new ApplicationException("InterruptedException occurred in SupermarketQueue::getTotalTime");
+        } catch (ExecutionException e) {
+            throw new ApplicationException("ExecutionException occurred in SupermarketQueue::getTotalTime");
         }
         executorService.shutdown();
 
