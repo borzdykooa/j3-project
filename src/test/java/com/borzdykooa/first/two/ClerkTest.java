@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.borzdykooa.first.two.BankNote.*;
+import static com.borzdykooa.first.two.BankNote.FIFTY;
+import static com.borzdykooa.first.two.BankNote.HUNDRED;
+import static com.borzdykooa.first.two.BankNote.TWENTY_FIVE;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
