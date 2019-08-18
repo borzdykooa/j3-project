@@ -1,7 +1,6 @@
 package com.borzdykooa.second.four;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,8 +12,7 @@ import java.util.stream.Collectors;
  */
 public class ArraySortService {
 
-    public Integer[] sortArray(Integer[] array) {
-        List<Integer> integers = Arrays.asList(array);
+    public List<Integer> sortArray(List<Integer> integers) {
         List<Integer> sortedOddNumbers = integers.stream().filter(i -> i % 2 > 0).sorted().collect(Collectors.toList());
         List<Integer> newList = new ArrayList<>(integers.size());
         for (int i = 0, j = 0; i < integers.size(); i++) {
@@ -25,6 +23,6 @@ public class ArraySortService {
                 newList.add(integers.get(i));
             }
         }
-        return newList.toArray(new Integer[0]);
+        return newList;
     }
 }

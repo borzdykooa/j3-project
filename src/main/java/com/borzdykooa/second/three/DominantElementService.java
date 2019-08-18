@@ -20,10 +20,11 @@ public class DominantElementService {
     public Integer findDominantElement(List<Integer> list) {
         Map<Integer, Long> collect = list
                 .stream()
-                .collect(Collectors.groupingBy(t -> t, Collectors.counting()));
+                .collect(Collectors.groupingBy(element -> element, Collectors.counting()));
+
         return collect.entrySet()
                 .stream()
-                .filter(i -> i.getValue() > list.size() / 2)
+                .filter(entry -> entry.getValue() > list.size() / 2)
                 .map(Map.Entry::getKey)
                 .findFirst().orElse(null);
     }

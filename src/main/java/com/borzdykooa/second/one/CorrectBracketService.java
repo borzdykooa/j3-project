@@ -1,7 +1,7 @@
 package com.borzdykooa.second.one;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Дана строка, содержащая следующие символы: ‘)’, ‘(‘, ‘}’, ‘{’, ‘[’, ‘]’.
@@ -19,20 +19,33 @@ import java.util.regex.Pattern;
 public class CorrectBracketService {
 
     public boolean isStringCorrect(String string) {
-        StringBuffer startBuffer = new StringBuffer(string);
-        Pattern pattern = Pattern.compile("(\\(\\))|(\\{})|(\\[])");
-        Matcher matcher = pattern.matcher(startBuffer);
-        while (matcher.find()) {
-            matcher.reset();
-            StringBuffer endBuffer = new StringBuffer();
-            while (matcher.find()) {
-                matcher.appendReplacement(endBuffer, "");
+        Deque<Character> deque = new ArrayDeque<>();
+        for (int i = 0; i < string.length(); i++) {
+            char current = string.charAt(i);
+            if (isOpeningBracket(current)) {
+                deque.add(current);
             }
-            matcher.appendTail(endBuffer);
-            startBuffer = endBuffer;
-            matcher = pattern.matcher(startBuffer);
+            if (isClosingBracket(current)) {
+                if (deque.isEmpty() || !isPairOfBrackets(current, deque.peekLast())) {
+                    return false;
+                } else {
+                    deque.removeLast();
+                }
+            }
         }
 
-        return startBuffer.length() == 0;
+        return deque.isEmpty();
+    }
+
+    private boolean isOpeningBracket(char current) {
+        return current == '{' || current == '(' || current == '[';
+    }
+
+    private boolean isClosingBracket(char current) {
+        return current == '}' || current == ')' || current == ']';
+    }
+
+    private boolean isPairOfBrackets(char current, char last) {
+        return (current == '}' && last == '{') || (current == ')' && last == '(') || (current == ']' && last == '[');
     }
 }

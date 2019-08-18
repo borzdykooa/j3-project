@@ -26,15 +26,11 @@ import java.util.stream.Collectors;
  */
 public class AnagramService {
 
-    public List<Set<String>> groupAnagrams(String[] input) {
-        List<String> strings = Arrays.asList(input);
+    public List<Set<String>> groupAnagrams(List<String> strings) {
         List<String> sortedStrings = strings.stream().map(this::sortString).collect(Collectors.toList());
         List<String> uniqueStrings = new ArrayList<>(new LinkedHashSet<>(sortedStrings));
-
         List<Set<String>> result = new ArrayList<>(uniqueStrings.size());
-        for (int i = 0; i < uniqueStrings.size(); i++) {
-            result.add(new TreeSet<>());
-        }
+        uniqueStrings.forEach(u -> result.add(new TreeSet<>()));
         for (int i = 0; i < strings.size(); i++) {
             for (int j = 0; j < uniqueStrings.size(); j++) {
                 if (sortedStrings.get(i).equals(uniqueStrings.get(j))) {
@@ -46,10 +42,10 @@ public class AnagramService {
         return result;
     }
 
-    private String sortString(String str) {
-        char[] arr = str.toCharArray();
-        Arrays.sort(arr);
+    private String sortString(String string) {
+        char[] array = string.toCharArray();
+        Arrays.sort(array);
 
-        return String.valueOf(arr);
+        return String.valueOf(array);
     }
 }
