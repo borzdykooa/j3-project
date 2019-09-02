@@ -8,7 +8,8 @@ import static org.junit.Assert.assertEquals;
 
 public class BinaryTreeServiceTest {
 
-    private BinaryTreeService binaryTreeService = new BinaryTreeService();
+    private BinaryTreeService<Integer> intBinaryTreeService = new BinaryTreeService<>();
+    private BinaryTreeService<Character> charBinaryTreeService = new BinaryTreeService<>();
 
     private BinaryTree<Integer> intTree;
     private BinaryTree<Character> charTree;
@@ -38,37 +39,37 @@ public class BinaryTreeServiceTest {
 
     @Test
     public void firstTask() {
-        int totalNumberOfNodes = binaryTreeService.getTotalNumberOfNodes(intTree);
+        int totalNumberOfNodes = intBinaryTreeService.getTotalNumberOfNodes(intTree);
         assertEquals(9, totalNumberOfNodes);
     }
 
     @Test
     public void secondTask() {
-        int totalNumberOfNodes = binaryTreeService.getMaxDepth(intTree);
+        int totalNumberOfNodes = intBinaryTreeService.getMaxDepth(intTree);
         assertEquals(4, totalNumberOfNodes);
     }
 
     @Test
     public void thirdTaskInOrder() {
-        String result = binaryTreeService.inOrderConcat(charTree);
+        String result = charBinaryTreeService.inOrderConcat(charTree);
         assertEquals("abcdefg", result);
     }
 
     @Test
     public void thirdTaskPreOrder() {
-        String result = binaryTreeService.preOrderConcat(charTree);
+        String result = charBinaryTreeService.preOrderConcat(charTree);
         assertEquals("dabcefg", result);
     }
 
     @Test
     public void thirdTaskPostOrder() {
-        String result = binaryTreeService.postOrderConcat(charTree);
+        String result = charBinaryTreeService.postOrderConcat(charTree);
         assertEquals("cbagfed", result);
     }
 
     @Test
     public void forthTask() {
-        String result = binaryTreeService.breadthFirstConcat(charTree);
+        String result = charBinaryTreeService.breadthFirstConcat(charTree);
         assertEquals("daebfcg", result);
     }
 }
