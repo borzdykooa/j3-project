@@ -21,11 +21,10 @@ public class StudentStatisticDecorator extends TreeIteratorDecorator<Student> {
     @Override
     public Student next() {
         Student student = super.next();
-        if (map.containsKey(student.getCourse())) {
-            map.get(student.getCourse()).add(student);
-        } else {
-            map.put(student.getCourse(), new ArrayList<>(Collections.singletonList(student)));
-        }
+        map.merge(student.getCourse(), new ArrayList<>(Collections.singletonList(student)), (oldVal, newVal) -> {
+            oldVal.addAll(newVal);
+            return new ArrayList<>(oldVal);
+        });
 
         return student;
     }
@@ -33,7 +32,7 @@ public class StudentStatisticDecorator extends TreeIteratorDecorator<Student> {
     public List<Student> gexMinCourseStudents() {
         List<Student> minCourseStudents = null;
         if (map != null && !map.isEmpty()) {
-            Integer minCourse = map.keySet().stream().sorted().findFirst().get();
+            Integer minCourse = map.keySet().stream().mapToInt(Integer::intValue).min().getAsInt();
             minCourseStudents = map.get(minCourse);
         }
 
@@ -43,7 +42,7 @@ public class StudentStatisticDecorator extends TreeIteratorDecorator<Student> {
     public List<Student> gexMaxCourseStudents() {
         List<Student> maxCourseStudents = null;
         if (map != null && !map.isEmpty()) {
-            Integer minCourse = map.keySet().stream().sorted(Comparator.reverseOrder()).findFirst().get();
+            Integer minCourse = map.keySet().stream().mapToInt(Integer::intValue).max().getAsInt();
             maxCourseStudents = map.get(minCourse);
         }
 
