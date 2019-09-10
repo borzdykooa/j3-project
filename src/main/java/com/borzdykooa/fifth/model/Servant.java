@@ -2,6 +2,7 @@ package com.borzdykooa.fifth.model;
 
 import com.borzdykooa.fifth.util.RandomUtil;
 import com.borzdykooa.general.ApplicationException;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,15 +10,12 @@ import java.util.List;
 import static com.borzdykooa.fifth.util.ConstantUtil.MAX_NUMBER_OF_DETAILS_PER_NIGHT;
 import static com.borzdykooa.fifth.util.ConstantUtil.NIGHT_DURATION;
 
+@RequiredArgsConstructor
 public class Servant extends Thread {
 
     private final List<RobotPart> dump;
     private List<RobotPart> robotParts = new ArrayList<>();
     private volatile int count = 100;
-
-    public Servant(List<RobotPart> dump) {
-        this.dump = dump;
-    }
 
     public List<RobotPart> getRobotParts() {
         return robotParts;

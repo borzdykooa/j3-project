@@ -2,20 +2,18 @@ package com.borzdykooa.fifth.model;
 
 import com.borzdykooa.fifth.util.RandomUtil;
 import com.borzdykooa.general.ApplicationException;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 import static com.borzdykooa.fifth.util.ConstantUtil.MAX_NUMBER_OF_DETAILS_PER_NIGHT;
 import static com.borzdykooa.fifth.util.ConstantUtil.NIGHT_DURATION;
 
+@RequiredArgsConstructor
 public class Factory extends Thread {
 
     private final List<RobotPart> dump;
     private volatile int count = 100;
-
-    public Factory(List<RobotPart> dump) {
-        this.dump = dump;
-    }
 
     @Override
     public void run() {
